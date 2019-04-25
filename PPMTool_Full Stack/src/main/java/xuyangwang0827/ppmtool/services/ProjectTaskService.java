@@ -20,7 +20,7 @@ public class ProjectTaskService {
         // Exceptions: Project not found
 
         // ProjectTasks to be added to a specific project, project != null, backlog exists
-        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier);
+        Backlog backlog = backlogRepository.findByProjectIdentifier(projectIdentifier.toUpperCase());
 
         // Set the backlog to projectTask
         projectTask.setBacklog(backlog);
@@ -47,5 +47,9 @@ public class ProjectTaskService {
         }
 
         return projectTaskRepository.save(projectTask);
+    }
+
+    public Iterable<ProjectTask> findBacklogById(String id) {
+        return projectTaskRepository.findByProjectIdentifierOrderByPriority(id);
     }
 }
