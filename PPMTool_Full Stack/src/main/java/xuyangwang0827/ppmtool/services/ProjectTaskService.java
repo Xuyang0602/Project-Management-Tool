@@ -10,6 +10,8 @@ import xuyangwang0827.ppmtool.repositories.BacklogRepository;
 import xuyangwang0827.ppmtool.repositories.ProjectRepository;
 import xuyangwang0827.ppmtool.repositories.ProjectTaskRepository;
 
+import java.util.List;
+
 @Service
 public class ProjectTaskService {
 
@@ -80,5 +82,18 @@ public class ProjectTaskService {
         if (!projectTask.getProjectIdentifier().equals(backlog_id)) throw new ProjectNotFoundException("Project Task '" + sequence_id + "' does not exist in project '" + backlog_id + "'");
 
         return projectTask;
+    }
+
+    public ProjectTask updateByProjectSequence(ProjectTask updatedTask, String backlog_id, String pt_id) {
+        ProjectTask projectTask = findProjectTaskByProjectSequence(backlog_id, pt_id);
+//        ProjectTask projectTask = projectTaskRepository.findByProjectSequence(pt_id);
+        projectTask = updatedTask;
+        return projectTaskRepository.save(projectTask);
+    }
+
+    public void deleteProjectTaskByProjectSequence(String backlog_id, String pt_id) {
+        ProjectTask projectTask = findProjectTaskByProjectSequence(backlog_id, pt_id);
+
+        projectTaskRepository.delete(projectTask);
     }
 }
