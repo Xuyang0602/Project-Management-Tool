@@ -5,10 +5,14 @@ export const createProject = (project, history) => async dispatch => {
   try {
     await axios.post("/api/project", project);
     history.push("/dashboard");
-  } catch (err) {
     dispatch({
       type: GET_ERRORS,
       payload: {}
+    });
+  } catch (err) {
+    dispatch({
+      type: GET_ERRORS,
+      payload: err.response.data
     });
   }
 };
