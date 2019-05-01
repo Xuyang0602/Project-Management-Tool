@@ -1,7 +1,13 @@
 import React, { Component } from "react";
 import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import PropTypes from "prop-types";
+import { deleteProjectTask } from "../../../actions/backlogActions";
 
 class ProjectTask extends Component {
+  onDeleteClick(backlog_id, pt_id) {
+    this.props.deleteProjectTask(backlog_id, pt_id);
+  }
   render() {
     const { project_task_prop } = this.props;
 
@@ -40,11 +46,29 @@ class ProjectTask extends Component {
             View / Update
           </Link>
 
-          <button className="btn btn-danger ml-4">Delete</button>
+          <button
+            className="btn btn-danger ml-4"
+            onClick={this.onDeleteClick.bind(
+              this,
+              project_task_prop.projectIdentifier,
+              project_task_prop.projectSequence
+            )}
+          >
+            Delete
+          </button>
         </div>
       </div>
     );
   }
 }
 
-export default ProjectTask;
+ProjectTask.propTypes = {
+  deleteProjectTask: PropTypes.func.isRequired
+};
+
+// const mapStateToProps = {};
+
+export default connect(
+  null,
+  { deleteProjectTask }
+)(ProjectTask);
