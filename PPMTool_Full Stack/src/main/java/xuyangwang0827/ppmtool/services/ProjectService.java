@@ -76,10 +76,6 @@ public class ProjectService {
     }
 
     public void deleteProjectByIdntifier(String projectId, String username) {
-//        Project project = projectRepository.findByProjectIdentifier(projectId.toUpperCase());
-//        if (project == null) throw new ProjectIdException("Can not delete Project with ID " + projectId);
-//        projectRepository.delete(project);
-
         // updated 05/07
         projectRepository.delete(findProjectByIdentifier(projectId, username));
     }
