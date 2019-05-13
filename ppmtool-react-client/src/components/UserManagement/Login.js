@@ -18,10 +18,11 @@ class Login extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    if (nextProps.errors) this.setState({ errors: nextProps.errors });
+
     if (nextProps.security.validToken) {
       this.props.history.push("/dashboard");
     }
-    if (nextProps.errors) this.setState({ errors: nextProps.errors });
   }
 
   onChange(e) {
@@ -34,11 +35,11 @@ class Login extends Component {
       username: this.state.username,
       password: this.state.password
     };
-    console.log(loginRequest);
     this.props.login(loginRequest);
   }
 
   render() {
+    const { errors } = this.state;
     return (
       <div className="login">
         <div className="container">
@@ -49,22 +50,32 @@ class Login extends Component {
                 <div className="form-group">
                   <input
                     type="email"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.username
+                    })}
                     placeholder="Username"
                     name="username"
                     value={this.state.username}
                     onChange={this.onChange}
                   />
+                  {errors.username && (
+                    <div className="invalid-feedback">{errors.username}</div>
+                  )}
                 </div>
                 <div className="form-group">
                   <input
                     type="password"
-                    className="form-control form-control-lg"
+                    className={classnames("form-control form-control-lg", {
+                      "is-invalid": errors.password
+                    })}
                     placeholder="Password"
                     name="password"
                     value={this.state.password}
                     onChange={this.onChange}
                   />
+                  {errors.password && (
+                    <div className="invalid-feedback">{errors.password}</div>
+                  )}
                 </div>
                 <input type="submit" className="btn btn-info btn-block mt-4" />
               </form>
